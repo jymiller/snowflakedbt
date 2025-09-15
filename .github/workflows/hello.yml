@@ -1,0 +1,12 @@
+name: Hello Actions
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "👋 Hello from GitHub Actions on $GITHUB_REF"
+
