@@ -1,0 +1,9 @@
+snowflakedbt:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      role: SYSADMIN
+      warehouse: JYM_TASTY_BYTES_DBT_WH
+      database: JYM_TASTY_BYTES_DBT_DB
+      schema: PUBLIC
