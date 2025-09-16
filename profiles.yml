@@ -3,6 +3,8 @@ snowflakedbt:
   outputs:
     dev:
       type: snowflake
+      account: 'not needed'
+      user: 'not needed'
       role: SYSADMIN
       warehouse: JYM_TASTY_BYTES_DBT_WH
       database: JYM_TASTY_BYTES_DBT_DB
