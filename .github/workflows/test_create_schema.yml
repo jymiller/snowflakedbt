@@ -31,7 +31,6 @@ jobs:
           # RUNID = github.run_id
           # snow sql -q "create schema if not exists ${{ github.ref_name }};" -x
           # snow sql -q "create schema if not exists RUNID${{ github.run_id }};" -x
-          # snow sql -q "create schema if not exists ${{ github.ref/heads }};" -x
 
           branch=$(git symbolic-ref --short HEAD)
           echo "Current branch: $branch"
