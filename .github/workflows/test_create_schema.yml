@@ -26,4 +26,6 @@ jobs:
           # BRANCH_NAME=${{ github.ref_name }}
           # RUNID = github.run_id
           # snow sql -q "create schema if not exists ${{ github.ref_name }};" -x
-          snow sql -q "create schema if not exists RUNID${{ github.run_id }};" -x
+          # snow sql -q "create schema if not exists RUNID${{ github.run_id }};" -x
+          snow sql -q "create schema if not exists ${{ github.ref/HEADS }};" -x
+          
