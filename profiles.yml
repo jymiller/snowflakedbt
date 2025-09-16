@@ -1,0 +1,17 @@
+snowflakedbt:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      role: SYSADMIN
+      warehouse: JYM_TASTY_BYTES_DBT_WH
+      database: JYM_TASTY_BYTES_DBT_DB
+      schema: DEV
+    prod:
+      type: snowflake
+      account: 'not needed'
+      user: 'not needed'
+      role: SYSADMIN
+      database: JYM_tasty_bytes_dbt_db
+      schema: prod
+      warehouse: JYM_tasty_bytes_dbt_wh
