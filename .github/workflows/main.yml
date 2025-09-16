@@ -16,12 +16,11 @@ jobs:
 
       - name: Create schema
         env:
-          # Auth (use ONE of these approaches)
+          # Auth (use ONE of these approaches)        
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PRIVATE_KEY_RAW: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}   # PKCS#8 PEM
-          # SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}              # (alternative to key)
-
+          SNOWFLAKE_PRIVATE_KEY_RAW: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}  
+          
           # Defaults
           SNOWFLAKE_ROLE: ACCOUNTADMIN
           SNOWFLAKE_WAREHOUSE: JYM_TASTY_BYTES_DBT_WH
