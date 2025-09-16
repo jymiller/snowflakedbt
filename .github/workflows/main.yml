@@ -8,6 +8,9 @@ jobs:
     steps:
       # Snowflake CLI installation
       - uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          custom-github-ref: "feature/my-branch" # or a tag/commit hash
+
       - name: Check key length
         run: echo "Key length is ${#SNOWFLAKE_PRIVATE_KEY_RAW}"
         env:
