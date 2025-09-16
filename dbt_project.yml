@@ -2,10 +2,8 @@ name: snowflakedbt
 version: 1.0.0
 config-version: 2
 profile: snowflakedbt
-model-paths:
-  - models
-analysis-paths:
-  - analyses
+model-paths: [ models ]
+analysis-paths: [ analyses ]
 test-paths:
   - tests
 seed-paths:
