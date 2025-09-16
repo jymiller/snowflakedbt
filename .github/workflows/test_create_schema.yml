@@ -1,7 +1,11 @@
 # .github/workflows/create-schema.yml
 name: Create Schema
-on: [push]
-
+# on: [push]
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+  
 jobs:
   create:
     runs-on: ubuntu-latest
