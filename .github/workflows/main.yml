@@ -1,69 +1,30 @@
 # .github/workflows/create-schema.yml
-name: Create Snowflake Schema (param)
+name: Create Schema
 
 on:
   workflow_dispatch:
     inputs:
-      schema_name:
-        description: "Schema to create (letters, numbers, underscore)"
+      schema:
+        description: "Schema name"
         required: true
-      database:
-        description: "Snowflake database"
-        required: true
-        default: "JYM_TASTY_BYTES_DBT_DB"
-      role:
-        description: "Snowflake role"
-        required: false
-        default: "ACCOUNTADMIN"
-      warehouse:
-        description: "Snowflake warehouse"
-        required: false
-        default: "JYM_TASTY_BYTES_DBT_WH"
 
 jobs:
-  create-schema:
+  create:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Snowflake CLI
-        uses: snowflakedb/snowflake-cli-action@v2.0
-        with:
-          cli-version: "latest"
+      - uses: snowflakedb/snowflake-cli-action@v2.0
 
       - name: Create schema
         env:
-          # Auth via key pair (recommended for CI)
+          # Auth (use ONE of these approaches)
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PRIVATE_KEY_RAW: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}
+          SNOWFLAKE_PRIVATE_KEY_RAW: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}   # PKCS#8 PEM
+          # SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}              # (alternative to key)
 
-          # Defaults/inputs
-          SNOWFLAKE_ROLE: ${{ github.event.inputs.role }}
-          SNOWFLAKE_WAREHOUSE: ${{ github.event.inputs.warehouse }}
-          SNOWFLAKE_DATABASE: ${{ github.event.inputs.database }}
-
-          # Raw input schema name
-          INPUT_SCHEMA: ${{ github.event.inputs.schema_name }}
+          # Defaults
+          SNOWFLAKE_ROLE: ACCOUNTADMIN
+          SNOWFLAKE_WAREHOUSE: JYM_TASTY_BYTES_DBT_WH
+          SNOWFLAKE_DATABASE: JYM_TASTY_BYTES_DBT_DB
         run: |
-          set -euo pipefail
-
-          # Basic safety: allow letters, numbers, and underscores only
-          if [[ ! "$INPUT_SCHEMA" =~ ^[A-Za-z0-9_]+$ ]]; then
-            echo "❌ Invalid schema name. Use letters, numbers, and underscores only."
-            exit 1
-          fi
-
-          # Snowflake is case-insensitive without quotes; we’ll normalize to upper case
-          SCHEMA_UPPER=$(echo "$INPUT_SCHEMA" | tr '[:lower:]' '[:upper:]')
-
-          echo "Creating schema '${SCHEMA_UPPER}' in database '${SNOWFLAKE_DATABASE}' using role '${SNOWFLAKE_ROLE}' and warehouse '${SNOWFLAKE_WAREHOUSE}'..."
-
-          # Option 1: native CLI verb
-          snow schema create "${SCHEMA_UPPER}" -x
-
-          # Or Option 2: via SQL (uncomment if you prefer IF NOT EXISTS)
-          # snow sql -q "create schema if not exists ${SCHEMA_UPPER};" -x
-
-          echo "✅ Done."
+          snow sql -q "create schema if not exists ${{ github.event.inputs.schema }};" -x
